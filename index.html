@@ -80,22 +80,24 @@ html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
 .cat-label { font-size: 10.5px; font-weight: 700; color: var(--g400); letter-spacing: 0.8px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 11px; margin-top: 4px; }
 .cat-label::after { content: ''; flex: 1; height: 1px; background: var(--g200); }
 
-/* CARD GRID */
-.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 26px; }
+/* CARD GRID — vertical list */
+.card-grid { display: flex; flex-direction: column; margin-bottom: 26px; border: 1px solid var(--g200); border-radius: var(--r14); overflow: hidden; background: var(--w); }
 
-/* LINK CARD — wrapper div, click handled by JS */
-.link-card { background: var(--w); border: 1px solid var(--g200); border-radius: var(--r14); padding: 16px 16px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s; position: relative; }
-.link-card:hover { border-color: var(--gm); box-shadow: 0 4px 16px rgba(26,92,42,0.09); transform: translateY(-1px); }
-.link-card:active { transform: translateY(0); }
-.card-top { display: flex; align-items: center; justify-content: space-between; }
-.card-icon { width: 38px; height: 38px; border-radius: var(--r6); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.card-icon i { font-size: 20px; }
-.card-arrow { color: var(--g200); font-size: 16px; transition: color 0.15s; }
-.link-card:hover .card-arrow { color: var(--gm); }
-.card-abbr { font-size: 11px; font-weight: 600; color: var(--g400); letter-spacing: 0.3px; margin-bottom: 1px; }
-.card-label { font-size: 14px; font-weight: 700; color: var(--g900); line-height: 1.3; }
-.card-sub { font-size: 11.5px; color: var(--g600); line-height: 1.45; }
-.card-year-count { font-size: 10.5px; color: var(--gm); font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+/* LINK CARD — full-width row */
+.link-card { background: var(--w); border: none; border-bottom: 1px solid var(--g200); padding: 14px 16px; cursor: pointer; display: flex; flex-direction: column; gap: 0; transition: background 0.15s; position: static; }
+.link-card:last-child { border-bottom: none; }
+.link-card:hover { background: var(--g50); }
+.link-card.open { background: var(--gl); }
+.card-top { display: flex; align-items: center; gap: 14px; }
+.card-icon { width: 36px; height: 36px; border-radius: var(--r6); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.card-icon i { font-size: 18px; }
+.card-text { flex: 1; }
+.card-arrow { color: var(--g400); font-size: 16px; transition: transform 0.2s; flex-shrink: 0; }
+.link-card.open .card-arrow { transform: rotate(180deg); color: var(--gm); }
+.card-abbr { font-size: 10.5px; font-weight: 700; color: var(--g400); letter-spacing: 0.5px; margin-bottom: 0; }
+.card-label { font-size: 13.5px; font-weight: 700; color: var(--g900); line-height: 1.3; }
+.card-sub { font-size: 11.5px; color: var(--g600); line-height: 1.4; }
+.card-year-count { font-size: 10.5px; color: var(--gm); font-weight: 600; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
 .card-year-count i { font-size: 12px; }
 
 .ico-green  { background: var(--gl);      } .ico-green i  { color: var(--gm);     }
@@ -105,19 +107,19 @@ html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
 .ico-coral  { background: var(--coralbg); } .ico-coral i  { color: var(--coral);  }
 .ico-purple { background: var(--purplebg);} .ico-purple i { color: var(--purple); }
 
-/* YEAR DROPDOWN (appears inside card) */
-.year-dropdown { display: none; position: fixed; background: var(--w); border: 1.5px solid var(--gm); border-radius: var(--r10); box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 9999; overflow: hidden; min-width: 220px; }
+/* YEAR PANEL — inline expand inside the card row */
+.year-dropdown { display: none; margin-top: 12px; border-top: 1px solid var(--g200); padding-top: 4px; }
 .year-dropdown.open { display: block; }
-.year-dropdown-header { padding: 9px 14px 7px; background: var(--gl); border-bottom: 1px solid var(--g200); font-size: 11px; font-weight: 700; color: var(--gm); letter-spacing: 0.4px; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; }
+.year-dropdown-header { padding: 6px 0 6px; font-size: 10.5px; font-weight: 700; color: var(--gm); letter-spacing: 0.5px; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; }
 .year-dropdown-header button { background: none; border: none; cursor: pointer; color: var(--g400); font-size: 16px; line-height: 1; padding: 0; display: flex; align-items: center; }
 .year-dropdown-header button:hover { color: var(--g900); }
-.year-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--g100); cursor: pointer; text-decoration: none; color: var(--g900); transition: background 0.1s; }
-.year-item:last-child { border-bottom: none; }
-.year-item:hover { background: var(--gl); }
-.year-item i { font-size: 15px; color: var(--gm); flex-shrink: 0; }
-.year-item-label { font-size: 13px; font-weight: 600; }
-.year-item-sub { font-size: 11px; color: var(--g400); margin-top: 1px; }
-.coming-soon { font-size: 11px; color: var(--g400); font-style: italic; padding: 10px 14px; }
+.year-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; padding-bottom: 4px; }
+.year-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--r6); border: 1px solid var(--g200); cursor: pointer; text-decoration: none; color: var(--g900); transition: background 0.1s, border-color 0.1s; background: var(--w); }
+.year-item:hover { background: var(--gl); border-color: var(--gm); }
+.year-item i { font-size: 14px; color: var(--gm); flex-shrink: 0; }
+.year-item-label { font-size: 12.5px; font-weight: 600; }
+.year-item-sub { font-size: 10.5px; color: var(--g400); margin-top: 1px; }
+.coming-soon { font-size: 11px; color: var(--g400); font-style: italic; padding: 4px 0; }
 
 /* INFO BANNER */
 .info-banner { background: var(--gl); border: 1px solid rgba(26,92,42,0.2); border-left: 4px solid var(--gm); border-radius: var(--r10); padding: 11px 14px; display: flex; align-items: flex-start; gap: 9px; margin-bottom: 22px; font-size: 12.5px; color: var(--gd); }
@@ -242,167 +244,162 @@ html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
 
     <div class="cat-label">Performance &amp; Accountability</div>
     <div class="card-grid">
-
       <!-- OPCR -->
-      <div class="link-card" onclick="toggleDropdown('dd-opcr', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-opcr',this,event)">
         <div class="card-top">
           <div class="card-icon ico-green"><i class="ti ti-clipboard-check"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">OPCR</div>
+            <div class="card-label">Office Performance Commitment and Review</div>
+            <div class="card-sub">Annual office targets and accomplishment reports</div>
+            <div class="card-year-count"><i class="ti ti-calendar"></i> 2021 – 2026</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
-        </div>
-        <div>
-          <div class="card-abbr">OPCR</div>
-          <div class="card-label">Office Performance Commitment and Review</div>
-          <div class="card-sub">Annual office targets and accomplishment reports</div>
-          <div class="card-year-count"><i class="ti ti-calendar"></i> 2021 – 2026</div>
         </div>
         <div class="year-dropdown" id="dd-opcr">
-          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-opcr',event)"><i class="ti ti-x"></i></button></div>
-          <a class="year-item" href="https://drive.google.com/drive/folders/1nIkP63sfAS8DeObjdiMNQoDDxyLwFe2U?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2026 OPCR</div></div></a>
-          <a class="year-item" href="https://drive.google.com/drive/folders/1rQncBb3uBT2dki8uFCsvFcoywYktad1C?usp=sharing" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2025 OPCR</div></div></a>
-          <a class="year-item" href="https://drive.google.com/drive/folders/1kqfiX6m4tOxlYjt0NHaIknzTGPAR3Wu5?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2024 OPCR</div></div></a>
-          <a class="year-item" href="https://drive.google.com/drive/folders/1QSE0HVCgRQd0fH_piP_ZEwHpxJPt2aWE?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2023 OPCR</div></div></a>
-          <a class="year-item" href="https://drive.google.com/drive/folders/1KpK9wucI9OgN9HKK7qkQTnVS8Qs9lXNV?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2022 OPCR</div></div></a>
-          <a class="year-item" href="https://drive.google.com/drive/folders/10R3bNN05HmBgl-NzbMZVQ2K189VHa11V?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2021 OPCR</div></div></a>
+          <div class="year-dropdown-header">Select Year</div>
+          <div class="year-items-grid">
+            <a class="year-item" href="https://drive.google.com/drive/folders/1nIkP63sfAS8DeObjdiMNQoDDxyLwFe2U?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div class="year-item-label">2026 OPCR</div></a>
+            <a class="year-item" href="https://drive.google.com/drive/folders/1rQncBb3uBT2dki8uFCsvFcoywYktad1C?usp=sharing" target="_blank"><i class="ti ti-folder"></i><div class="year-item-label">2025 OPCR</div></a>
+            <a class="year-item" href="https://drive.google.com/drive/folders/1kqfiX6m4tOxlYjt0NHaIknzTGPAR3Wu5?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div class="year-item-label">2024 OPCR</div></a>
+            <a class="year-item" href="https://drive.google.com/drive/folders/1QSE0HVCgRQd0fH_piP_ZEwHpxJPt2aWE?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div class="year-item-label">2023 OPCR</div></a>
+            <a class="year-item" href="https://drive.google.com/drive/folders/1KpK9wucI9OgN9HKK7qkQTnVS8Qs9lXNV?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div class="year-item-label">2022 OPCR</div></a>
+            <a class="year-item" href="https://drive.google.com/drive/folders/10R3bNN05HmBgl-NzbMZVQ2K189VHa11V?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div class="year-item-label">2021 OPCR</div></a>
+          </div>
         </div>
       </div>
-
       <!-- IPCR -->
-      <div class="link-card" onclick="toggleDropdown('dd-ipcr', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-ipcr',this,event)">
         <div class="card-top">
           <div class="card-icon ico-blue"><i class="ti ti-user-check"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">IPCR</div>
+            <div class="card-label">Individual Performance Commitment and Review</div>
+            <div class="card-sub">Staff-level performance commitment forms</div>
+            <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
         </div>
-        <div>
-          <div class="card-abbr">IPCR</div>
-          <div class="card-label">Individual Performance Commitment and Review</div>
-          <div class="card-sub">Staff-level performance commitment forms</div>
-          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
-        </div>
         <div class="year-dropdown" id="dd-ipcr">
-          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-ipcr',event)"><i class="ti ti-x"></i></button></div>
+          <div class="year-dropdown-header">Select Year</div>
           <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
         </div>
       </div>
-
       <!-- RRRO -->
-      <div class="link-card" onclick="toggleDropdown('dd-rrro', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-rrro',this,event)">
         <div class="card-top">
           <div class="card-icon ico-amber"><i class="ti ti-alert-triangle"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">RRRO</div>
+            <div class="card-label">Registry of Relevant Risks and Opportunities</div>
+            <div class="card-sub">QMS risk and opportunity register</div>
+            <div class="card-year-count"><i class="ti ti-calendar"></i> Current registry</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
         </div>
-        <div>
-          <div class="card-abbr">RRRO</div>
-          <div class="card-label">Registry of Relevant Risks and Opportunities</div>
-          <div class="card-sub">QMS risk and opportunity register</div>
-          <div class="card-year-count"><i class="ti ti-calendar"></i> Current registry</div>
-        </div>
         <div class="year-dropdown" id="dd-rrro">
-          <div class="year-dropdown-header">Select Version <button onclick="closeDropdown('dd-rrro',event)"><i class="ti ti-x"></i></button></div>
-          <a class="year-item" href="https://docs.google.com/spreadsheets/d/11TmqWYWwnqaZLAB06Xxt40LPcSBWMZWX/edit?usp=drivesdk&ouid=118158072901353994879&rtpof=true&sd=true" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">RRRO — Current</div><div class="year-item-sub">Google Sheets</div></div></a>
+          <div class="year-dropdown-header">Select Version</div>
+          <div class="year-items-grid">
+            <a class="year-item" href="https://docs.google.com/spreadsheets/d/11TmqWYWwnqaZLAB06Xxt40LPcSBWMZWX/edit?usp=drivesdk&ouid=118158072901353994879&rtpof=true&sd=true" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">RRRO — Current</div><div class="year-item-sub">Google Sheets</div></div></a>
+          </div>
         </div>
       </div>
-
     </div><!-- /card-grid perf -->
 
     <div class="cat-label">Regulatory &amp; Operations</div>
     <div class="card-grid">
-
       <!-- TAC -->
-      <div class="link-card" onclick="toggleDropdown('dd-tac', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-tac',this,event)">
         <div class="card-top">
           <div class="card-icon ico-teal"><i class="ti ti-book-2"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">TAC</div>
+            <div class="card-label">TESDA Action Catalogue</div>
+            <div class="card-sub">TESDA regulatory action reference</div>
+            <div class="card-year-count"><i class="ti ti-calendar"></i> 2024 – 2025</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
-        </div>
-        <div>
-          <div class="card-abbr">TAC</div>
-          <div class="card-label">TESDA Action Catalogue</div>
-          <div class="card-sub">TESDA regulatory action reference</div>
-          <div class="card-year-count"><i class="ti ti-calendar"></i> 2024 – 2025</div>
         </div>
         <div class="year-dropdown" id="dd-tac">
-          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-tac',event)"><i class="ti ti-x"></i></button></div>
-          <a class="year-item" href="https://docs.google.com/spreadsheets/d/1EhuKNWLiFYEBYyfDv1amxgrVbRqk-DEN/edit?gid=444405271#gid=444405271" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">2025 TAC</div><div class="year-item-sub">Google Sheets</div></div></a>
-          <a class="year-item" href="https://docs.google.com/spreadsheets/d/1x6l5tnt-NOpSbDU-Q0tTCDUKs1A_sd8i/edit?gid=444405271#gid=444405271" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">2024 TAC</div><div class="year-item-sub">Google Sheets</div></div></a>
+          <div class="year-dropdown-header">Select Year</div>
+          <div class="year-items-grid">
+            <a class="year-item" href="https://docs.google.com/spreadsheets/d/1EhuKNWLiFYEBYyfDv1amxgrVbRqk-DEN/edit?gid=444405271#gid=444405271" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">2025 TAC</div><div class="year-item-sub">Google Sheets</div></div></a>
+            <a class="year-item" href="https://docs.google.com/spreadsheets/d/1x6l5tnt-NOpSbDU-Q0tTCDUKs1A_sd8i/edit?gid=444405271#gid=444405271" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">2024 TAC</div><div class="year-item-sub">Google Sheets</div></div></a>
+          </div>
         </div>
       </div>
-
       <!-- Designation Orders -->
-      <div class="link-card" onclick="toggleDropdown('dd-do', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-do',this,event)">
         <div class="card-top">
           <div class="card-icon ico-coral"><i class="ti ti-id-badge"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">D.O.</div>
+            <div class="card-label">Designation Orders</div>
+            <div class="card-sub">Official designation and authority issuances</div>
+            <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
-        </div>
-        <div>
-          <div class="card-abbr">D.O.</div>
-          <div class="card-label">Designation Orders</div>
-          <div class="card-sub">Official designation and authority issuances</div>
-          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
         </div>
         <div class="year-dropdown" id="dd-do">
-          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-do',event)"><i class="ti ti-x"></i></button></div>
+          <div class="year-dropdown-header">Select Year</div>
           <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
         </div>
       </div>
-
       <!-- Circulars -->
-      <div class="link-card" onclick="toggleDropdown('dd-circ', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-circ',this,event)">
         <div class="card-top">
           <div class="card-icon ico-purple"><i class="ti ti-news"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">CIRC</div>
+            <div class="card-label">Circulars &amp; Guidelines</div>
+            <div class="card-sub">Policy memoranda and operational directives</div>
+            <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
         </div>
-        <div>
-          <div class="card-abbr">CIRC</div>
-          <div class="card-label">Circulars &amp; Guidelines</div>
-          <div class="card-sub">Policy memoranda and operational directives</div>
-          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
-        </div>
         <div class="year-dropdown" id="dd-circ">
-          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-circ',event)"><i class="ti ti-x"></i></button></div>
+          <div class="year-dropdown-header">Select Year</div>
           <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
         </div>
       </div>
-
     </div><!-- /card-grid ops -->
 
     <div class="cat-label">Tools &amp; Visibility</div>
     <div class="card-grid">
-
       <!-- Forms -->
-      <div class="link-card" onclick="toggleDropdown('dd-forms', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-forms',this,event)">
         <div class="card-top">
           <div class="card-icon ico-green"><i class="ti ti-forms"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">FORMS</div>
+            <div class="card-label">Forms &amp; Templates</div>
+            <div class="card-sub">Standardized QMS and HR forms</div>
+            <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
-        </div>
-        <div>
-          <div class="card-abbr">FORMS</div>
-          <div class="card-label">Forms &amp; Templates</div>
-          <div class="card-sub">Standardized QMS and HR forms</div>
-          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
         </div>
         <div class="year-dropdown" id="dd-forms">
-          <div class="year-dropdown-header">Select Version <button onclick="closeDropdown('dd-forms',event)"><i class="ti ti-x"></i></button></div>
+          <div class="year-dropdown-header">Select Version</div>
           <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
         </div>
       </div>
-
       <!-- Success Stories -->
-      <div class="link-card" onclick="toggleDropdown('dd-stories', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-stories',this,event)">
         <div class="card-top">
           <div class="card-icon ico-amber"><i class="ti ti-star"></i></div>
+          <div class="card-text">
+            <div class="card-abbr">STORIES</div>
+            <div class="card-label">Published Success Stories</div>
+            <div class="card-sub">TVET learner and graduate impact stories</div>
+            <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+          </div>
           <i class="ti ti-chevron-down card-arrow"></i>
         </div>
-        <div>
-          <div class="card-abbr">STORIES</div>
-          <div class="card-label">Published Success Stories</div>
-          <div class="card-sub">TVET learner and graduate impact stories</div>
-          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
-        </div>
         <div class="year-dropdown" id="dd-stories">
-          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-stories',event)"><i class="ti ti-x"></i></button></div>
+          <div class="year-dropdown-header">Select Year</div>
           <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
         </div>
       </div>
-
     </div><!-- /card-grid tools -->
   </div><!-- /panel-documents -->
 
@@ -415,7 +412,7 @@ html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
     <hr class="sec-rule">
     <div class="cat-label">Commitment &amp; Review</div>
     <div class="card-grid">
-      <div class="link-card" onclick="toggleDropdown('dd-opcr2', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-opcr2',this,event)">
         <div class="card-top"><div class="card-icon ico-green"><i class="ti ti-clipboard-list"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
         <div><div class="card-abbr">OPCR</div><div class="card-label">Annual OPCR</div><div class="card-sub">FY office commitment tracker</div><div class="card-year-count"><i class="ti ti-calendar"></i> 2021 – 2026</div></div>
         <div class="year-dropdown" id="dd-opcr2">
@@ -428,7 +425,7 @@ html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
           <a class="year-item" href="https://drive.google.com/drive/folders/10R3bNN05HmBgl-NzbMZVQ2K189VHa11V?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2021 OPCR</div></div></a>
         </div>
       </div>
-      <div class="link-card" onclick="toggleDropdown('dd-ipcr2', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-ipcr2',this,event)">
         <div class="card-top"><div class="card-icon ico-blue"><i class="ti ti-users"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
         <div><div class="card-abbr">IPCR</div><div class="card-label">IPCR — All Staff</div><div class="card-sub">Individual performance forms</div><div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div></div>
         <div class="year-dropdown" id="dd-ipcr2">
@@ -439,7 +436,7 @@ html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
     </div>
     <div class="cat-label">Risk &amp; Quality</div>
     <div class="card-grid">
-      <div class="link-card" onclick="toggleDropdown('dd-rrro2', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-rrro2',this,event)">
         <div class="card-top"><div class="card-icon ico-coral"><i class="ti ti-shield-check"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
         <div><div class="card-abbr">RRRO</div><div class="card-label">RRRO Registry</div><div class="card-sub">Risk and opportunity entries</div><div class="card-year-count"><i class="ti ti-calendar"></i> Current</div></div>
         <div class="year-dropdown" id="dd-rrro2">
@@ -447,7 +444,7 @@ html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
           <a class="year-item" href="https://docs.google.com/spreadsheets/d/11TmqWYWwnqaZLAB06Xxt40LPcSBWMZWX/edit?usp=drivesdk&ouid=118158072901353994879&rtpof=true&sd=true" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">RRRO — Current</div><div class="year-item-sub">Google Sheets</div></div></a>
         </div>
       </div>
-      <div class="link-card" onclick="toggleDropdown('dd-mrm', event)">
+      <div class="link-card" onclick="toggleDropdown('dd-mrm',this,event)">
         <div class="card-top"><div class="card-icon ico-teal"><i class="ti ti-refresh"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
         <div><div class="card-abbr">MRM</div><div class="card-label">Management Review Minutes</div><div class="card-sub">QMS committee review records</div><div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div></div>
         <div class="year-dropdown" id="dd-mrm">
@@ -583,30 +580,20 @@ function switchTab(tab, btn) {
   if (si) { si.value = ''; filterCards(''); }
 }
 
-// Dropdown
+// Dropdown — inline expand
 function closeAllDropdowns() {
   document.querySelectorAll('.year-dropdown').forEach(function(d){ d.classList.remove('open'); });
+  document.querySelectorAll('.link-card').forEach(function(c){ c.classList.remove('open'); });
 }
-function toggleDropdown(id, e) {
+function toggleDropdown(id, card, e) {
   e.stopPropagation();
   var dd = document.getElementById(id);
-  var wasOpen = dd.classList.contains('open');
+  var isOpen = dd.classList.contains('open');
   closeAllDropdowns();
-  if (!wasOpen) {
-    var card = e.currentTarget;
-    var rect = card.getBoundingClientRect();
+  if (!isOpen) {
     dd.classList.add('open');
-    var ddW = 240;
-    var left = rect.left;
-    if (left + ddW > window.innerWidth - 8) left = window.innerWidth - ddW - 8;
-    dd.style.top = (rect.bottom + 6) + 'px';
-    dd.style.left = left + 'px';
-    dd.style.width = ddW + 'px';
+    card.classList.add('open');
   }
-}
-function closeDropdown(id, e) {
-  e.stopPropagation();
-  document.getElementById(id).classList.remove('open');
 }
 document.addEventListener('click', function(){ closeAllDropdowns(); });
 
