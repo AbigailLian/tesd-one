@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TESD·ONE — MBHTE-TESD BARMM Resource Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gd: #0f3d1a; --gm: #1a5c2a; --gmi: #256b35; --gl: #e8f5ec;
+  --gold: #f5c842; --w: #ffffff;
+  --g50: #f7f7f4; --g100: #eeede9; --g200: #ddddd8;
+  --g400: #999994; --g600: #555552; --g900: #1a1a18;
+  --blue: #185fa5; --bluebg: #e6f1fb;
+  --teal: #0f6e56; --tealbg: #e1f5ee;
+  --amber: #b07a10; --amberbg: #fdf3d8;
+  --coral: #993c1d; --coralbg: #faece7;
+  --purple: #534ab7; --purplebg: #eeedfe;
+  --r6: 6px; --r10: 10px; --r14: 14px;
+}
+html, body { height: 100%; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: var(--g50); color: var(--g900); font-size: 14px; line-height: 1.6; }
+.site { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* TOPBAR */
+.topbar { background: var(--gd); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 38px; flex-shrink: 0; }
+.topbar-crumb { font-size: 11px; color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 5px; }
+.topbar-crumb i { font-size: 12px; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.topbar-date { font-size: 11px; color: rgba(255,255,255,0.4); }
+.topbar-iso { background: rgba(245,200,66,0.15); color: var(--gold); border: 1px solid rgba(245,200,66,0.3); font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.4px; }
+
+/* HEADER */
+.site-header { background: var(--gm); padding: 0 32px; border-bottom: 3px solid var(--gold); flex-shrink: 0; }
+.header-inner { display: flex; align-items: center; gap: 18px; padding: 16px 0 12px; }
+.header-seal { width: 50px; height: 50px; background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.header-seal i { font-size: 24px; color: var(--gold); }
+.header-office { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.55); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 1px; }
+.header-name { font-size: 21px; font-weight: 700; color: #fff; letter-spacing: 0.3px; line-height: 1.2; }
+.header-tag { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.header-div { width: 1px; height: 42px; background: rgba(255,255,255,0.18); margin: 0 6px; flex-shrink: 0; }
+.header-pills { flex: 1; }
+.pills-label { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); color: rgba(255,255,255,0.72); font-size: 11px; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
+.pill i { font-size: 12px; color: var(--gold); }
+
+/* NAV */
+.site-nav { background: var(--gmi); padding: 0 32px; display: flex; align-items: center; flex-shrink: 0; }
+.nav-btn { background: none; border: none; color: rgba(255,255,255,0.6); padding: 10px 15px; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 6px; font-family: inherit; transition: color 0.15s; white-space: nowrap; }
+.nav-btn i { font-size: 15px; }
+.nav-btn:hover { color: #fff; }
+.nav-btn.active { color: #fff; border-bottom-color: var(--gold); }
+.nav-spacer { flex: 1; }
+.search-pill { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); border-radius: 20px; padding: 5px 13px; color: rgba(255,255,255,0.55); font-size: 12px; cursor: pointer; font-family: inherit; }
+.search-pill i { font-size: 14px; }
+
+/* MAIN */
+.site-main { flex: 1; padding: 28px 32px; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* SECTION HEAD */
+.sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.sec-icon { width: 32px; height: 32px; border-radius: var(--r6); background: var(--gl); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sec-icon i { font-size: 17px; color: var(--gm); }
+.sec-title { font-size: 15px; font-weight: 700; color: var(--g900); }
+.sec-sub { font-size: 12px; color: var(--g400); margin-top: 1px; }
+.sec-rule { border: none; border-top: 1px solid var(--g200); margin: 0 0 20px; }
+
+/* SEARCH BAR */
+.search-bar { display: flex; align-items: center; gap: 10px; background: var(--w); border: 1.5px solid var(--g200); border-radius: var(--r10); padding: 0 14px; margin-bottom: 22px; max-width: 420px; transition: border-color 0.15s; }
+.search-bar:focus-within { border-color: var(--gm); }
+.search-bar i { color: var(--g400); font-size: 16px; }
+.search-bar input { border: none; background: transparent; padding: 9px 0; font-size: 13px; width: 100%; outline: none; color: var(--g900); font-family: inherit; }
+.search-bar input::placeholder { color: var(--g400); }
+
+/* CAT LABEL */
+.cat-label { font-size: 10.5px; font-weight: 700; color: var(--g400); letter-spacing: 0.8px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 11px; margin-top: 4px; }
+.cat-label::after { content: ''; flex: 1; height: 1px; background: var(--g200); }
+
+/* CARD GRID */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 26px; }
+
+/* LINK CARD — wrapper div, click handled by JS */
+.link-card { background: var(--w); border: 1px solid var(--g200); border-radius: var(--r14); padding: 16px 16px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s; position: relative; }
+.link-card:hover { border-color: var(--gm); box-shadow: 0 4px 16px rgba(26,92,42,0.09); transform: translateY(-1px); }
+.link-card:active { transform: translateY(0); }
+.card-top { display: flex; align-items: center; justify-content: space-between; }
+.card-icon { width: 38px; height: 38px; border-radius: var(--r6); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.card-icon i { font-size: 20px; }
+.card-arrow { color: var(--g200); font-size: 16px; transition: color 0.15s; }
+.link-card:hover .card-arrow { color: var(--gm); }
+.card-abbr { font-size: 11px; font-weight: 600; color: var(--g400); letter-spacing: 0.3px; margin-bottom: 1px; }
+.card-label { font-size: 14px; font-weight: 700; color: var(--g900); line-height: 1.3; }
+.card-sub { font-size: 11.5px; color: var(--g600); line-height: 1.45; }
+.card-year-count { font-size: 10.5px; color: var(--gm); font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.card-year-count i { font-size: 12px; }
+
+.ico-green  { background: var(--gl);      } .ico-green i  { color: var(--gm);     }
+.ico-amber  { background: var(--amberbg); } .ico-amber i  { color: var(--amber);  }
+.ico-blue   { background: var(--bluebg);  } .ico-blue i   { color: var(--blue);   }
+.ico-teal   { background: var(--tealbg);  } .ico-teal i   { color: var(--teal);   }
+.ico-coral  { background: var(--coralbg); } .ico-coral i  { color: var(--coral);  }
+.ico-purple { background: var(--purplebg);} .ico-purple i { color: var(--purple); }
+
+/* YEAR DROPDOWN (appears inside card) */
+.year-dropdown { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--w); border: 1.5px solid var(--gm); border-radius: var(--r10); box-shadow: 0 8px 24px rgba(0,0,0,0.12); z-index: 100; overflow: hidden; }
+.year-dropdown.open { display: block; }
+.year-dropdown-header { padding: 9px 14px 7px; background: var(--gl); border-bottom: 1px solid var(--g200); font-size: 11px; font-weight: 700; color: var(--gm); letter-spacing: 0.4px; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; }
+.year-dropdown-header button { background: none; border: none; cursor: pointer; color: var(--g400); font-size: 16px; line-height: 1; padding: 0; display: flex; align-items: center; }
+.year-dropdown-header button:hover { color: var(--g900); }
+.year-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--g100); cursor: pointer; text-decoration: none; color: var(--g900); transition: background 0.1s; }
+.year-item:last-child { border-bottom: none; }
+.year-item:hover { background: var(--gl); }
+.year-item i { font-size: 15px; color: var(--gm); flex-shrink: 0; }
+.year-item-label { font-size: 13px; font-weight: 600; }
+.year-item-sub { font-size: 11px; color: var(--g400); margin-top: 1px; }
+.coming-soon { font-size: 11px; color: var(--g400); font-style: italic; padding: 10px 14px; }
+
+/* INFO BANNER */
+.info-banner { background: var(--gl); border: 1px solid rgba(26,92,42,0.2); border-left: 4px solid var(--gm); border-radius: var(--r10); padding: 11px 14px; display: flex; align-items: flex-start; gap: 9px; margin-bottom: 22px; font-size: 12.5px; color: var(--gd); }
+.info-banner i { font-size: 17px; color: var(--gm); flex-shrink: 0; margin-top: 1px; }
+
+/* QMS */
+.rqmr-card { background: var(--w); border: 1px solid var(--g200); border-radius: var(--r14); overflow: hidden; margin-bottom: 22px; }
+.rqmr-head { background: var(--gm); padding: 15px 20px; display: flex; align-items: center; gap: 13px; }
+.rqmr-av { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--gold); flex-shrink: 0; }
+.rqmr-name { font-size: 15px; font-weight: 700; color: #fff; }
+.rqmr-role { font-size: 11.5px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.cluster-row { display: flex; align-items: center; gap: 13px; padding: 11px 20px; border-bottom: 1px solid var(--g100); transition: background 0.1s; }
+.cluster-row:last-child { border-bottom: none; }
+.cluster-row:hover { background: var(--g50); }
+.cl-av { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.av-g { background: var(--gm); } .av-b { background: var(--blue); } .av-t { background: var(--teal); }
+.cl-name { font-size: 13.5px; font-weight: 600; color: var(--g900); }
+.cl-role { font-size: 11.5px; color: var(--g400); margin-top: 1px; }
+.cl-tag { margin-left: auto; background: var(--gl); color: var(--gm); font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+.div-card { background: var(--w); border: 1px solid var(--g200); border-radius: var(--r14); padding: 15px 17px; display: flex; align-items: flex-start; gap: 12px; }
+.div-icon { width: 36px; height: 36px; border-radius: var(--r6); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.div-icon i { font-size: 19px; }
+.div-name { font-size: 13px; font-weight: 600; color: var(--g900); }
+.div-person { font-size: 12px; color: var(--g600); margin-top: 2px; }
+.div-role2 { font-size: 11px; color: var(--g400); margin-top: 1px; }
+.prov-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 9px; }
+.prov-card { background: var(--w); border: 1px solid var(--g200); border-radius: var(--r10); padding: 11px 13px; display: flex; align-items: center; gap: 10px; transition: border-color 0.15s; }
+.prov-card:hover { border-color: var(--gm); }
+.prov-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gm); flex-shrink: 0; }
+.prov-name { font-size: 12.5px; font-weight: 600; color: var(--g900); }
+.prov-area { font-size: 11px; color: var(--g400); margin-top: 1px; }
+
+/* UPDATES */
+.feed { display: flex; flex-direction: column; gap: 9px; }
+.feed-item { background: var(--w); border: 1px solid var(--g200); border-radius: var(--r10); padding: 12px 15px; display: flex; gap: 12px; align-items: flex-start; }
+.feed-icon { width: 33px; height: 33px; border-radius: var(--r6); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.feed-icon i { font-size: 17px; }
+.feed-title { font-size: 13.5px; font-weight: 600; color: var(--g900); }
+.feed-meta { font-size: 11.5px; color: var(--g400); margin-top: 2px; }
+.feed-new { margin-left: auto; background: var(--gl); color: var(--gm); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+
+/* FOOTER */
+.site-footer { background: var(--gd); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; flex-shrink: 0; }
+.footer-text { font-size: 11.5px; color: rgba(255,255,255,0.38); display: flex; align-items: center; gap: 8px; }
+.footer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+.footer-links { display: flex; align-items: center; gap: 14px; }
+.footer-link { font-size: 11.5px; color: rgba(255,255,255,0.4); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.15s; }
+.footer-link:hover { color: rgba(255,255,255,0.75); }
+.footer-link i { font-size: 13px; }
+
+@media (max-width: 580px) {
+  .topbar, .site-header, .site-nav, .site-main, .site-footer { padding-left: 14px; padding-right: 14px; }
+  .header-div, .header-pills { display: none; }
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+  .nav-spacer, .search-pill { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="site">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-crumb">
+    <i class="ti ti-home"></i>
+    <span>MBHTE-TESD BARMM</span>
+    <i class="ti ti-chevron-right"></i>
+    <span>TESD·ONE</span>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-date" id="live-date"></span>
+    <span class="topbar-iso">ISO 9001:2015 COMPLIANT</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-seal"><i class="ti ti-building-community"></i></div>
+    <div>
+      <div class="header-office">MBHTE-TESD BARMM · Policy and Programs Division</div>
+      <div class="header-name">TESD·ONE</div>
+      <div class="header-tag">One Source of Truth — QMS Resource Hub</div>
+    </div>
+    <div class="header-div"></div>
+    <div class="header-pills">
+      <div class="pills-label">Coverage</div>
+      <div class="pills">
+        <span class="pill"><i class="ti ti-map-pin"></i> BARMM Region</span>
+        <span class="pill"><i class="ti ti-shield-check"></i> QMS Governance</span>
+        <span class="pill"><i class="ti ti-link"></i> Central Registry</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <button class="nav-btn active" onclick="switchTab('documents',this)"><i class="ti ti-folder-open"></i> Documents</button>
+  <button class="nav-btn" onclick="switchTab('performance',this)"><i class="ti ti-chart-bar"></i> Performance</button>
+  <button class="nav-btn" onclick="switchTab('qms',this)"><i class="ti ti-sitemap"></i> QMS Committee</button>
+  <button class="nav-btn" onclick="switchTab('updates',this)"><i class="ti ti-bell"></i> Updates</button>
+  <div class="nav-spacer"></div>
+  <button class="search-pill" onclick="focusSearch()"><i class="ti ti-search"></i> Quick search</button>
+</nav>
+
+<!-- MAIN -->
+<main class="site-main">
+
+  <!-- ══ DOCUMENTS ══ -->
+  <div id="panel-documents" class="panel active">
+    <div class="info-banner">
+      <i class="ti ti-info-circle"></i>
+      <span>All links in TESD·ONE are the official, single-source versions. Click any card and select the year to open the corresponding folder. Contact the Documents and Records Control cluster to register new links.</span>
+    </div>
+    <div class="search-bar">
+      <i class="ti ti-search"></i>
+      <input type="text" id="doc-search" placeholder="Search documents…" oninput="filterCards(this.value)" autocomplete="off">
+    </div>
+
+    <div class="cat-label">Performance &amp; Accountability</div>
+    <div class="card-grid">
+
+      <!-- OPCR -->
+      <div class="link-card" onclick="toggleDropdown('dd-opcr', event)">
+        <div class="card-top">
+          <div class="card-icon ico-green"><i class="ti ti-clipboard-check"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">OPCR</div>
+          <div class="card-label">Office Performance Commitment and Review</div>
+          <div class="card-sub">Annual office targets and accomplishment reports</div>
+          <div class="card-year-count"><i class="ti ti-calendar"></i> 2021 – 2026</div>
+        </div>
+        <div class="year-dropdown" id="dd-opcr">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-opcr',event)"><i class="ti ti-x"></i></button></div>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1nIkP63sfAS8DeObjdiMNQoDDxyLwFe2U?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2026 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1rQncBb3uBT2dki8uFCsvFcoywYktad1C?usp=sharing" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2025 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1kqfiX6m4tOxlYjt0NHaIknzTGPAR3Wu5?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2024 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1QSE0HVCgRQd0fH_piP_ZEwHpxJPt2aWE?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2023 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1KpK9wucI9OgN9HKK7qkQTnVS8Qs9lXNV?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2022 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/10R3bNN05HmBgl-NzbMZVQ2K189VHa11V?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2021 OPCR</div></div></a>
+        </div>
+      </div>
+
+      <!-- IPCR -->
+      <div class="link-card" onclick="toggleDropdown('dd-ipcr', event)">
+        <div class="card-top">
+          <div class="card-icon ico-blue"><i class="ti ti-user-check"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">IPCR</div>
+          <div class="card-label">Individual Performance Commitment and Review</div>
+          <div class="card-sub">Staff-level performance commitment forms</div>
+          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+        </div>
+        <div class="year-dropdown" id="dd-ipcr">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-ipcr',event)"><i class="ti ti-x"></i></button></div>
+          <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
+        </div>
+      </div>
+
+      <!-- RRRO -->
+      <div class="link-card" onclick="toggleDropdown('dd-rrro', event)">
+        <div class="card-top">
+          <div class="card-icon ico-amber"><i class="ti ti-alert-triangle"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">RRRO</div>
+          <div class="card-label">Registry of Relevant Risks and Opportunities</div>
+          <div class="card-sub">QMS risk and opportunity register</div>
+          <div class="card-year-count"><i class="ti ti-calendar"></i> Current registry</div>
+        </div>
+        <div class="year-dropdown" id="dd-rrro">
+          <div class="year-dropdown-header">Select Version <button onclick="closeDropdown('dd-rrro',event)"><i class="ti ti-x"></i></button></div>
+          <a class="year-item" href="https://docs.google.com/spreadsheets/d/11TmqWYWwnqaZLAB06Xxt40LPcSBWMZWX/edit?usp=drivesdk&ouid=118158072901353994879&rtpof=true&sd=true" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">RRRO — Current</div><div class="year-item-sub">Google Sheets</div></div></a>
+        </div>
+      </div>
+
+    </div><!-- /card-grid perf -->
+
+    <div class="cat-label">Regulatory &amp; Operations</div>
+    <div class="card-grid">
+
+      <!-- TAC -->
+      <div class="link-card" onclick="toggleDropdown('dd-tac', event)">
+        <div class="card-top">
+          <div class="card-icon ico-teal"><i class="ti ti-book-2"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">TAC</div>
+          <div class="card-label">TESDA Action Catalogue</div>
+          <div class="card-sub">TESDA regulatory action reference</div>
+          <div class="card-year-count"><i class="ti ti-calendar"></i> 2024 – 2025</div>
+        </div>
+        <div class="year-dropdown" id="dd-tac">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-tac',event)"><i class="ti ti-x"></i></button></div>
+          <a class="year-item" href="https://docs.google.com/spreadsheets/d/1EhuKNWLiFYEBYyfDv1amxgrVbRqk-DEN/edit?gid=444405271#gid=444405271" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">2025 TAC</div><div class="year-item-sub">Google Sheets</div></div></a>
+          <a class="year-item" href="https://docs.google.com/spreadsheets/d/1x6l5tnt-NOpSbDU-Q0tTCDUKs1A_sd8i/edit?gid=444405271#gid=444405271" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">2024 TAC</div><div class="year-item-sub">Google Sheets</div></div></a>
+        </div>
+      </div>
+
+      <!-- Designation Orders -->
+      <div class="link-card" onclick="toggleDropdown('dd-do', event)">
+        <div class="card-top">
+          <div class="card-icon ico-coral"><i class="ti ti-id-badge"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">D.O.</div>
+          <div class="card-label">Designation Orders</div>
+          <div class="card-sub">Official designation and authority issuances</div>
+          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+        </div>
+        <div class="year-dropdown" id="dd-do">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-do',event)"><i class="ti ti-x"></i></button></div>
+          <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
+        </div>
+      </div>
+
+      <!-- Circulars -->
+      <div class="link-card" onclick="toggleDropdown('dd-circ', event)">
+        <div class="card-top">
+          <div class="card-icon ico-purple"><i class="ti ti-news"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">CIRC</div>
+          <div class="card-label">Circulars &amp; Guidelines</div>
+          <div class="card-sub">Policy memoranda and operational directives</div>
+          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+        </div>
+        <div class="year-dropdown" id="dd-circ">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-circ',event)"><i class="ti ti-x"></i></button></div>
+          <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
+        </div>
+      </div>
+
+    </div><!-- /card-grid ops -->
+
+    <div class="cat-label">Tools &amp; Visibility</div>
+    <div class="card-grid">
+
+      <!-- Forms -->
+      <div class="link-card" onclick="toggleDropdown('dd-forms', event)">
+        <div class="card-top">
+          <div class="card-icon ico-green"><i class="ti ti-forms"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">FORMS</div>
+          <div class="card-label">Forms &amp; Templates</div>
+          <div class="card-sub">Standardized QMS and HR forms</div>
+          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+        </div>
+        <div class="year-dropdown" id="dd-forms">
+          <div class="year-dropdown-header">Select Version <button onclick="closeDropdown('dd-forms',event)"><i class="ti ti-x"></i></button></div>
+          <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
+        </div>
+      </div>
+
+      <!-- Success Stories -->
+      <div class="link-card" onclick="toggleDropdown('dd-stories', event)">
+        <div class="card-top">
+          <div class="card-icon ico-amber"><i class="ti ti-star"></i></div>
+          <i class="ti ti-chevron-down card-arrow"></i>
+        </div>
+        <div>
+          <div class="card-abbr">STORIES</div>
+          <div class="card-label">Published Success Stories</div>
+          <div class="card-sub">TVET learner and graduate impact stories</div>
+          <div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div>
+        </div>
+        <div class="year-dropdown" id="dd-stories">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-stories',event)"><i class="ti ti-x"></i></button></div>
+          <div class="coming-soon">Links not yet registered. Contact DRC Cluster to add.</div>
+        </div>
+      </div>
+
+    </div><!-- /card-grid tools -->
+  </div><!-- /panel-documents -->
+
+  <!-- ══ PERFORMANCE ══ -->
+  <div id="panel-performance" class="panel">
+    <div class="sec-head">
+      <div class="sec-icon"><i class="ti ti-chart-bar"></i></div>
+      <div><div class="sec-title">Performance Documents</div><div class="sec-sub">Office and individual accountability records</div></div>
+    </div>
+    <hr class="sec-rule">
+    <div class="cat-label">Commitment &amp; Review</div>
+    <div class="card-grid">
+      <div class="link-card" onclick="toggleDropdown('dd-opcr2', event)">
+        <div class="card-top"><div class="card-icon ico-green"><i class="ti ti-clipboard-list"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
+        <div><div class="card-abbr">OPCR</div><div class="card-label">Annual OPCR</div><div class="card-sub">FY office commitment tracker</div><div class="card-year-count"><i class="ti ti-calendar"></i> 2021 – 2026</div></div>
+        <div class="year-dropdown" id="dd-opcr2">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-opcr2',event)"><i class="ti ti-x"></i></button></div>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1nIkP63sfAS8DeObjdiMNQoDDxyLwFe2U?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2026 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1rQncBb3uBT2dki8uFCsvFcoywYktad1C?usp=sharing" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2025 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1kqfiX6m4tOxlYjt0NHaIknzTGPAR3Wu5?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2024 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1QSE0HVCgRQd0fH_piP_ZEwHpxJPt2aWE?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2023 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/1KpK9wucI9OgN9HKK7qkQTnVS8Qs9lXNV?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2022 OPCR</div></div></a>
+          <a class="year-item" href="https://drive.google.com/drive/folders/10R3bNN05HmBgl-NzbMZVQ2K189VHa11V?usp=drive_link" target="_blank"><i class="ti ti-folder"></i><div><div class="year-item-label">2021 OPCR</div></div></a>
+        </div>
+      </div>
+      <div class="link-card" onclick="toggleDropdown('dd-ipcr2', event)">
+        <div class="card-top"><div class="card-icon ico-blue"><i class="ti ti-users"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
+        <div><div class="card-abbr">IPCR</div><div class="card-label">IPCR — All Staff</div><div class="card-sub">Individual performance forms</div><div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div></div>
+        <div class="year-dropdown" id="dd-ipcr2">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-ipcr2',event)"><i class="ti ti-x"></i></button></div>
+          <div class="coming-soon">Links not yet registered.</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-label">Risk &amp; Quality</div>
+    <div class="card-grid">
+      <div class="link-card" onclick="toggleDropdown('dd-rrro2', event)">
+        <div class="card-top"><div class="card-icon ico-coral"><i class="ti ti-shield-check"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
+        <div><div class="card-abbr">RRRO</div><div class="card-label">RRRO Registry</div><div class="card-sub">Risk and opportunity entries</div><div class="card-year-count"><i class="ti ti-calendar"></i> Current</div></div>
+        <div class="year-dropdown" id="dd-rrro2">
+          <div class="year-dropdown-header">Select Version <button onclick="closeDropdown('dd-rrro2',event)"><i class="ti ti-x"></i></button></div>
+          <a class="year-item" href="https://docs.google.com/spreadsheets/d/11TmqWYWwnqaZLAB06Xxt40LPcSBWMZWX/edit?usp=drivesdk&ouid=118158072901353994879&rtpof=true&sd=true" target="_blank"><i class="ti ti-table"></i><div><div class="year-item-label">RRRO — Current</div><div class="year-item-sub">Google Sheets</div></div></a>
+        </div>
+      </div>
+      <div class="link-card" onclick="toggleDropdown('dd-mrm', event)">
+        <div class="card-top"><div class="card-icon ico-teal"><i class="ti ti-refresh"></i></div><i class="ti ti-chevron-down card-arrow"></i></div>
+        <div><div class="card-abbr">MRM</div><div class="card-label">Management Review Minutes</div><div class="card-sub">QMS committee review records</div><div class="card-year-count"><i class="ti ti-clock"></i> Link coming soon</div></div>
+        <div class="year-dropdown" id="dd-mrm">
+          <div class="year-dropdown-header">Select Year <button onclick="closeDropdown('dd-mrm',event)"><i class="ti ti-x"></i></button></div>
+          <div class="coming-soon">Links not yet registered.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ QMS COMMITTEE ══ -->
+  <div id="panel-qms" class="panel">
+    <div class="sec-head">
+      <div class="sec-icon"><i class="ti ti-sitemap"></i></div>
+      <div><div class="sec-title">Regional Quality Management Committee</div><div class="sec-sub">MBHTE-TESD BARMM · QMS Structure per ISO 9001:2015</div></div>
+    </div>
+    <hr class="sec-rule">
+    <div class="cat-label">Regional Quality Management Representative</div>
+    <div class="rqmr-card">
+      <div class="rqmr-head">
+        <div class="rqmr-av">RA</div>
+        <div><div class="rqmr-name">Ruby A. Andong</div><div class="rqmr-role">Regional Quality Management Representative (RQMR)</div></div>
+      </div>
+      <div>
+        <div class="cluster-row">
+          <div class="cl-av av-g">OP</div>
+          <div><div class="cl-name">Omaira S. Palanggalan</div><div class="cl-role">Internal Quality Audit Cluster</div></div>
+          <span class="cl-tag">IQA</span>
+        </div>
+        <div class="cluster-row">
+          <div class="cl-av av-b">JK</div>
+          <div><div class="cl-name">Jamela G. Kabuntalan</div><div class="cl-role">Documents and Records Control Cluster</div></div>
+          <span class="cl-tag">DRC</span>
+        </div>
+        <div class="cluster-row">
+          <div class="cl-av av-t">AM</div>
+          <div><div class="cl-name">Abigail Lian A. Morallas</div><div class="cl-role">Customer Satisfaction Cluster</div></div>
+          <span class="cl-tag">CS</span>
+        </div>
+      </div>
+    </div>
+    <div class="cat-label">Division Representatives</div>
+    <div class="two-col">
+      <div class="div-card">
+        <div class="div-icon ico-blue"><i class="ti ti-building"></i></div>
+        <div><div class="div-name">Regional Operations Division</div><div class="div-person">Omaira S. Palanggalan</div><div class="div-role2">Division QMS Representative</div></div>
+      </div>
+      <div class="div-card">
+        <div class="div-icon ico-purple"><i class="ti ti-file-certificate"></i></div>
+        <div><div class="div-name">Policy and Programs Division</div><div class="div-person">Faida H. Latip</div><div class="div-role2">Division QMS Representative</div></div>
+      </div>
+    </div>
+    <div class="cat-label">Provincial / City Quality Management Representatives</div>
+    <div class="prov-grid">
+      <div class="prov-card"><div class="prov-dot"></div><div><div class="prov-name">Muida S. Hataman</div><div class="prov-area">Basilan · Provincial QMR</div></div></div>
+      <div class="prov-card"><div class="prov-dot"></div><div><div class="prov-name">Glenn A. Abubakar</div><div class="prov-area">Sulu · Provincial QMR</div></div></div>
+      <div class="prov-card"><div class="prov-dot"></div><div><div class="prov-name">Maryam S. Nuruddin</div><div class="prov-area">Tawi-Tawi · Provincial QMR</div></div></div>
+      <div class="prov-card"><div class="prov-dot"></div><div><div class="prov-name">Salekh B. Mangelen</div><div class="prov-area">Maguindanao · Provincial QMR</div></div></div>
+      <div class="prov-card"><div class="prov-dot"></div><div><div class="prov-name">Asnawi L. Bato</div><div class="prov-area">Lanao del Sur · Provincial QMR</div></div></div>
+      <div class="prov-card"><div class="prov-dot"></div><div><div class="prov-name">Rasul K. Datukali</div><div class="prov-area">Cotabato City · City QMR</div></div></div>
+    </div>
+    <div style="background:var(--w);border:1px solid var(--g200);border-radius:var(--r10);padding:11px 15px;margin-top:14px;display:flex;align-items:center;gap:8px;">
+      <i class="ti ti-info-circle" style="font-size:15px;color:var(--g400);flex-shrink:0;"></i>
+      <span style="font-size:12px;color:var(--g600);">Also under the Secretariat: <strong>Basser B. Sabal</strong>. Committee structured per ISO 9001:2015 Clause 5.3 — Organizational roles, responsibilities, and authorities.</span>
+    </div>
+  </div>
+
+  <!-- ══ UPDATES ══ -->
+  <div id="panel-updates" class="panel">
+    <div class="sec-head">
+      <div class="sec-icon"><i class="ti ti-bell"></i></div>
+      <div><div class="sec-title">Updates &amp; Activity</div><div class="sec-sub">Recent changes to documents and links in TESD·ONE</div></div>
+    </div>
+    <hr class="sec-rule">
+    <div class="feed">
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--gl);"><i class="ti ti-file-plus" style="color:var(--gm);"></i></div>
+        <div style="flex:1;"><div class="feed-title">OPCR 2026 folder registered</div><div class="feed-meta">June 2026 · Policy and Programs Division</div></div>
+        <span class="feed-new">New</span>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--amberbg);"><i class="ti ti-alert-triangle" style="color:var(--amber);"></i></div>
+        <div style="flex:1;"><div class="feed-title">RRRO registry link added</div><div class="feed-meta">June 2026 · Internal Quality Audit Cluster</div></div>
+        <span class="feed-new">New</span>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--tealbg);"><i class="ti ti-table" style="color:var(--teal);"></i></div>
+        <div style="flex:1;"><div class="feed-title">TAC 2024 and 2025 links registered</div><div class="feed-meta">June 2026 · Documents and Records Control</div></div>
+        <span class="feed-new">New</span>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--gl);"><i class="ti ti-rocket" style="color:var(--gm);"></i></div>
+        <div style="flex:1;"><div class="feed-title">TESD·ONE launched</div><div class="feed-meta">June 2026 · QMS Committee</div></div>
+      </div>
+    </div>
+    <div style="margin-top:18px;padding:13px 15px;background:var(--w);border:1px solid var(--g200);border-radius:var(--r10);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <span style="font-size:12.5px;color:var(--g600);">Have a document to register in TESD·ONE?</span>
+      <a href="mailto:tesd.barmm@mbhte.gov.ph" style="font-size:12.5px;color:var(--gm);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:5px;">
+        <i class="ti ti-mail" style="font-size:14px;"></i> Contact DRC Cluster
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-text"><div class="footer-dot"></div> TESD·ONE v1.0 &nbsp;·&nbsp; MBHTE-TESD BARMM &nbsp;·&nbsp; QMS ISO 9001:2015</div>
+  <div class="footer-links">
+    <a href="mailto:tesd.barmm@mbhte.gov.ph" class="footer-link"><i class="ti ti-mail"></i> Contact DRC Cluster</a>
+  </div>
+</footer>
+
+</div><!-- /.site -->
+<script>
+// Live date
+(function(){
+  var el = document.getElementById('live-date');
+  if (!el) return;
+  var d = new Date();
+  var m = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  el.textContent = m[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+})();
+
+// Tab switching
+function switchTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+  closeAllDropdowns();
+  var si = document.getElementById('doc-search');
+  if (si) { si.value = ''; filterCards(''); }
+}
+
+// Dropdown
+function closeAllDropdowns() {
+  document.querySelectorAll('.year-dropdown').forEach(function(d){ d.classList.remove('open'); });
+}
+function toggleDropdown(id, e) {
+  e.stopPropagation();
+  var dd = document.getElementById(id);
+  var wasOpen = dd.classList.contains('open');
+  closeAllDropdowns();
+  if (!wasOpen) dd.classList.add('open');
+}
+function closeDropdown(id, e) {
+  e.stopPropagation();
+  document.getElementById(id).classList.remove('open');
+}
+document.addEventListener('click', function(){ closeAllDropdowns(); });
+
+// Search
+function filterCards(q) {
+  var lq = q.toLowerCase();
+  document.querySelectorAll('#panel-documents .link-card').forEach(function(card){
+    card.style.display = card.textContent.toLowerCase().includes(lq) ? '' : 'none';
+  });
+}
+function focusSearch() {
+  switchTab('documents', document.querySelector('.nav-btn'));
+  setTimeout(function(){ var si = document.getElementById('doc-search'); if(si) si.focus(); }, 50);
+}
+</script>
+</body>
+</html>
